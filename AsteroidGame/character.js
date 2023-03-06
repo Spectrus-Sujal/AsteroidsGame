@@ -1,6 +1,6 @@
 class Character extends Actor {
-  constructor(startingPosition, startingVelocity, size, sprite, health) {
-    super(startingPosition, startingVelocity, size, sprite, health);
+  constructor(startingPosition, startingVelocity) {
+    super(startingPosition, startingVelocity);
     this.acc = createVector(0, -3);
     this.charRotation = 0;
   }

@@ -1,18 +1,10 @@
 class AsteroidManager {
-  constructor(numOfAsteroids, sprite) {
+  constructor(numOfAsteroids) {
     this.asteroids = [numOfAsteroids];
 
     for (let i = 0; i < numOfAsteroids; i++) {
-      let startingPosition = createVector(random(0, width), random(0, height));
-      let startingVelocity = createVector(random(0, 5), random(0, 5));
-      let size = floor(random(2, 5)) * 10;
-      this.asteroids[i] = new Actor(
-        startingPosition,
-        startingVelocity,
-        size,
-        sprite,
-        1
-      );
+      let size = random(15, 30);
+      this.asteroids[i] = new Asteroid(size);
     }
   }
 
@@ -24,7 +16,16 @@ class AsteroidManager {
 
   display() {
     for (let i = 0; i < this.asteroids.length; i++) {
+      push();
+
+      stroke(255);
+      noFill();
+
+      translate(this.asteroids[i].position.x, this.asteroids[i].position.y);
+
       this.asteroids[i].display();
+
+      pop();
     }
   }
 }

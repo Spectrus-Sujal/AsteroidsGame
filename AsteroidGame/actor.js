@@ -1,19 +1,13 @@
 class Actor {
-  constructor(startingPosition, startingVelocity, size, sprite, health) {
+  constructor(startingPosition, startingVelocity, size) {
     this.position = startingPosition;
     this.velocity = startingVelocity;
     this.size = createVector(size, size);
-    this.sprite = sprite;
-    this.health = health;
   }
 
   update() {
     this.position.add(this.velocity);
     this.checkEdges();
-  }
-
-  isDead() {
-    return this.health <= 0;
   }
 
   checkEdges() {
@@ -30,15 +24,5 @@ class Actor {
     } else if (this.position.y < -collisionRadius) {
       this.position.y = height - collisionRadius;
     }
-  }
-
-  display() {
-    image(
-      this.sprite,
-      this.position.x,
-      this.position.y,
-      this.size.x,
-      this.size.y
-    );
   }
 }
