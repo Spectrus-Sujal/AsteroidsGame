@@ -1,6 +1,7 @@
 let ship;
 let shipRotation = 0;
 let shipRotator = 0;
+let AM;
 
 function setup() {
   createCanvas(400, 400);
@@ -9,7 +10,7 @@ function setup() {
   let startingPosition = createVector(width / 2, height / 2);
   let startingVelocity = createVector(0, 0);
   let spriteSize = 5;
-  let sprite = 0;
+  let sprite = 5;
   let health = 5;
   ship = new Character(
     startingPosition,
@@ -18,12 +19,17 @@ function setup() {
     sprite,
     health
   );
+
+  AM = new AsteroidManager(5, 5);
 }
 
 function draw() {
   background(0);
 
   shipRotation += shipRotator;
+
+  AM.update();
+  //AM.display();
 
   push();
 
