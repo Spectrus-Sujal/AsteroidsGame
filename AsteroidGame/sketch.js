@@ -6,7 +6,7 @@ let AM;
 function setup() {
   createCanvas(400, 400);
 
-  angleMode(DEGREES);
+  angleMode(RADIANS);
   let startingPosition = createVector(width / 2, height / 2);
   let startingVelocity = createVector(0, 0);
   ship = new Character(startingPosition, startingVelocity, 5);
@@ -38,11 +38,11 @@ function draw() {
 function keyPressed() {
   switch (key) {
     case "a":
-      shipRotator = -5;
+      shipRotator = -0.1;
       break;
 
     case "d":
-      shipRotator = 5;
+      shipRotator = 0.1;
       break;
   }
 }

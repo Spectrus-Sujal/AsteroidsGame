@@ -11,7 +11,7 @@ class Character extends Actor {
 
   update(isThrusting) {
     if (isThrusting) {
-      this.acc.setHeading(this.charRotation - 90);
+      this.acc.setHeading(this.charRotation - HALF_PI);
       this.velocity.add(this.acc);
     }
 
