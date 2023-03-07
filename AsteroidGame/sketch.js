@@ -3,6 +3,8 @@ let shipRotation = 0;
 let shipRotator = 0;
 let AM;
 
+let lasers = [];
+
 function setup() {
   createCanvas(400, 400);
 
@@ -33,6 +35,15 @@ function draw() {
   ship.display();
 
   pop();
+
+  push();
+
+  for (let i = 0; i < lasers.length; i++) {
+    lasers[i].update();
+    lasers[i].display();
+  }
+
+  pop();
 }
 
 function keyPressed() {
@@ -43,6 +54,10 @@ function keyPressed() {
 
     case "d":
       shipRotator = 0.1;
+      break;
+
+    case "f":
+      lasers.push(new Laser(ship.position, shipRotation));
       break;
   }
 }
