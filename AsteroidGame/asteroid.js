@@ -29,4 +29,6 @@ class Asteroid extends Actor {
     }
     endShape(CLOSE);
   }
+
+  
 }

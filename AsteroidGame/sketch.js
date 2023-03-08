@@ -26,6 +26,13 @@ function draw() {
   AM.update();
   AM.display();
 
+  for (let i = 0; i < lasers.length; i++) {
+    if (AM.checkCollisions(lasers[i].position)) {
+      lasers.splice(i, 1);
+      i--;
+    }
+  }
+
   pop();
 
   push();

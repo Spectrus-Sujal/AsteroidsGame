@@ -20,8 +20,11 @@ class Character extends Actor {
   }
 
   display() {
+    stroke(255);
+    strokeWeight(1);
+    fill(0);
     translate(this.position.x, this.position.y);
     rotate(this.charRotation);
-    triangle(0, 0, -10, 10, 10, 10);
+    triangle(0, 0, -10, 20, 10, 20);
   }
 }

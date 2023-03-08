@@ -14,6 +14,14 @@ class AsteroidManager {
     }
   }
 
+  checkCollisions(target) {
+    for (let asteroid = 0; asteroid < this.asteroids.length; asteroid++) {
+      if (this.asteroids[asteroid].checkCollision(target)) {
+        //////splitApart();
+      }
+    }
+  }
+
   display() {
     for (let i = 0; i < this.asteroids.length; i++) {
       push();
