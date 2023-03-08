@@ -64,6 +64,10 @@ function keyPressed() {
       shipRotator = 0.1;
       break;
 
+    case "t":
+      ship.teleport();
+      break;
+
     case "f":
       lasers.push(new Laser(ship.position, shipRotation, true));
       break;

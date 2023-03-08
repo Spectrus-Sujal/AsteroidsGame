@@ -5,6 +5,11 @@ class Player extends Character {
     this.score = 0;
   }
 
+  teleport() {
+    this.position.x = random(width);
+    this.position.y = random(height);
+  }
+
   display() {
     stroke(255);
     strokeWeight(1);
