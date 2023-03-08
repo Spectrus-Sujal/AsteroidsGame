@@ -2,7 +2,7 @@ class Actor {
   constructor(startingPosition, startingVelocity, size) {
     this.position = startingPosition;
     this.velocity = startingVelocity;
-    this.size = createVector(size, size);
+    this.size = size;
   }
 
   update() {

@@ -1,9 +1,10 @@
 class Laser extends Actor {
-  constructor(pos, angle) {
+  constructor(pos, angle, isPlayerLaser) {
     let startingPosition = createVector(pos.x, pos.y);
     let startingVelocity = p5.Vector.fromAngle(angle - HALF_PI);
-
     super(startingPosition, startingVelocity, 1);
+
+    this.isPlayerLaser = isPlayerLaser;
   }
 
   display() {

@@ -1,6 +1,6 @@
 class Character extends Actor {
-  constructor(startingPosition, startingVelocity) {
-    super(startingPosition, startingVelocity);
+  constructor(startingPosition, startingVelocity, size) {
+    super(startingPosition, startingVelocity, size);
     this.acc = createVector(0, -3);
     this.charRotation = 0;
   }
@@ -17,14 +17,5 @@ class Character extends Actor {
 
     super.update();
     this.velocity.mult(0.9);
-  }
-
-  display() {
-    stroke(255);
-    strokeWeight(1);
-    fill(0);
-    translate(this.position.x, this.position.y);
-    rotate(this.charRotation);
-    triangle(0, 0, -10, 20, 10, 20);
   }
 }

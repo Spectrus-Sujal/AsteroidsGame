@@ -11,7 +11,8 @@ function setup() {
   angleMode(RADIANS);
   let startingPosition = createVector(width / 2, height / 2);
   let startingVelocity = createVector(0, 0);
-  ship = new Character(startingPosition, startingVelocity, 5);
+  let size = createVector(10, 20);
+  ship = new Player(startingPosition, startingVelocity, size);
 
   AM = new AsteroidManager(5);
 }
@@ -64,7 +65,7 @@ function keyPressed() {
       break;
 
     case "f":
-      lasers.push(new Laser(ship.position, shipRotation));
+      lasers.push(new Laser(ship.position, shipRotation, true));
       break;
   }
 }
