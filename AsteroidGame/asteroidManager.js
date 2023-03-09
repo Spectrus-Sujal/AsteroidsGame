@@ -47,11 +47,19 @@ class AsteroidManager {
     }
 
     this.asteroids.push(
-      new Asteroid(asteroid.position, asteroid.r / 2, asteroid.asteroidSize - 1)
+      new Asteroid(
+        asteroid.position.copy(),
+        asteroid.r / 2,
+        asteroid.asteroidSize - 1
+      )
     );
 
     this.asteroids.push(
-      new Asteroid(asteroid.position, asteroid.r / 2, asteroid.asteroidSize - 1)
+      new Asteroid(
+        asteroid.position.copy(),
+        asteroid.r / 2,
+        asteroid.asteroidSize - 1
+      )
     );
   }
 
