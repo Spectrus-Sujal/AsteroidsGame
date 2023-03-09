@@ -54,6 +54,7 @@ function draw() {
           mouseY <= height - height / 3 + height / 4
         ) {
           gameStarted = true;
+          setup();
         }
       }
     }
@@ -112,6 +113,7 @@ function playGame() {
     if (ship.health <= 0) {
       gameStarted = false;
     }
+    return;
   }
 
   pop();

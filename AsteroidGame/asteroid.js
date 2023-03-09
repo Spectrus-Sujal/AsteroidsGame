@@ -9,7 +9,7 @@ class Asteroid extends Actor {
 
     this.r = radius;
     this.asteroidSize = asteroidSize;
-    this.total = random(this.asteroidSize, this.asteroidSize * 3);
+    this.total = random(this.asteroidSize * 2, this.asteroidSize * 5);
 
     this.offset = [];
 
