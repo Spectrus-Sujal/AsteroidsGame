@@ -28,7 +28,7 @@ class Actor {
 
   checkCollision(pos) {
     let d = dist(this.position.x, this.position.y, pos.x, pos.y);
-    if (d < this.size) console.log("Hit");
+
     return d < this.size.x || d < this.size.y;
   }
 }

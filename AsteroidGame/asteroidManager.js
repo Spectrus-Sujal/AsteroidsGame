@@ -4,7 +4,12 @@ class AsteroidManager {
 
     for (let i = 0; i < numOfAsteroids; i++) {
       let size = random(15, 30);
-      this.asteroids[i] = new Asteroid(size);
+      let startingPosition = createVector(
+        random(0, width - size),
+        random(0, height - size)
+      );
+
+      this.asteroids[i] = new Asteroid(startingPosition, size, 3);
     }
   }
 
@@ -17,9 +22,37 @@ class AsteroidManager {
   checkCollisions(target) {
     for (let asteroid = 0; asteroid < this.asteroids.length; asteroid++) {
       if (this.asteroids[asteroid].checkCollision(target)) {
-        //////splitApart();
+        let temp = this.asteroids[asteroid];
+        this.asteroids.splice(asteroid, 1);
+        this.splitApart(temp);
+        switch (temp.asteroidSize) {
+          case 1:
+            return 100;
+
+          case 2:
+            return 50;
+
+          default:
+            return 20;
+        }
       }
     }
+
+    return 0;
+  }
+
+  splitApart(asteroid) {
+    if (asteroid.asteroidSize <= 0) {
+      return;
+    }
+
+    this.asteroids.push(
+      new Asteroid(asteroid.position, asteroid.r / 2, asteroid.asteroidSize - 1)
+    );
+
+    this.asteroids.push(
+      new Asteroid(asteroid.position, asteroid.r / 2, asteroid.asteroidSize - 1)
+    );
   }
 
   display() {
