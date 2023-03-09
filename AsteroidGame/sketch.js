@@ -12,7 +12,7 @@ function setup() {
   let startingPosition = createVector(width / 2, height / 2);
   let startingVelocity = createVector(0, 0);
   let size = createVector(10, 20);
-  ship = new Player(startingPosition, startingVelocity, size);
+  ship = new Player(startingPosition, startingVelocity, size, 3);
 
   AM = new AsteroidManager(5);
 }
@@ -21,20 +21,6 @@ function draw() {
   background(0);
 
   shipRotation += shipRotator;
-
-  push();
-
-  AM.update();
-  AM.display();
-
-  for (let i = 0; i < lasers.length; i++) {
-    if (AM.checkCollisions(lasers[i].position)) {
-      lasers.splice(i, 1);
-      i--;
-    }
-  }
-
-  pop();
 
   push();
 
@@ -49,6 +35,40 @@ function draw() {
   for (let i = 0; i < lasers.length; i++) {
     lasers[i].update();
     lasers[i].display();
+  }
+
+  pop();
+
+  push();
+
+  AM.update();
+  AM.display();
+
+  // check lasers and asteroids
+  for (let i = 0; i < lasers.length; i++) {
+    let tempScore = AM.checkCollisions(lasers[i].position);
+    if (tempScore != 0) {
+      if (lasers[i].isPlayerLaser) {
+        ship.score += tempScore;
+        if (ship.score >= 10000 * ship.scoreCounter) {
+          ship.health++;
+          ship.scoreCounter++;
+        }
+      }
+      lasers.splice(i, 1);
+      i--;
+    }
+  }
+
+  //check player collision
+  if (AM.checkCollisions(ship.position)) {
+    ship.health--;
+
+    ship.position = createVector(width / 2, height / 2);
+
+    if (ship.health <= 0) {
+      // game end
+    }
   }
 
   pop();
