@@ -3,6 +3,7 @@ class Player extends Character {
     super(startingPosition, startingVelocity, size);
     this.health = startHealth;
     this.score = 0;
+    this.scoreCounter = 1;
   }
 
   teleport() {
@@ -13,7 +14,11 @@ class Player extends Character {
   display() {
     stroke(255);
     strokeWeight(1);
-    fill(0);
+
+    noFill();
+    text("Lives Left: " + this.health, 20, 20);
+    text("Score: " + this.score, 20, 40);
+
     translate(this.position.x, this.position.y);
     rotate(this.charRotation);
     triangle(0, 0, -this.size.x / 2, this.size.y, this.size.x / 2, this.size.y);
