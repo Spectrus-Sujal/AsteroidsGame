@@ -13,23 +13,27 @@ let gameStarted = false;
 
 let lasers = [];
 
+let enemy1;
+
 function preload() {
-  shootSound = loadSound("soundEffects/laserShoot.mp3");
-  teleportSound = loadSound("soundEffects/teleport.mp3");
-  rockExplode = loadSound("soundEffects/rockExplode.mp3");
-  backgroundMusic = loadSound("soundEffects/gameplayLoop.mp3");
+   shootSound = loadSound("soundEffects/laserShoot.mp3");
+   teleportSound = loadSound("soundEffects/teleport.mp3");
+   rockExplode = loadSound("soundEffects/rockExplode.mp3");
+   backgroundMusic = loadSound("soundEffects/gameplayLoop.mp3");
 }
 
 function setup() {
   createCanvas(400, 400);
 
-  backgroundMusic.loop();
+   backgroundMusic.loop();
 
   angleMode(RADIANS);
   let startingPosition = createVector(width / 2, height / 2);
   let startingVelocity = createVector(0, 0);
   let size = createVector(10, 20);
   ship = new Player(startingPosition, startingVelocity, size, 3);
+
+  enemy1 = new Enemy(1);
 
   AM = new AsteroidManager(5);
 }
@@ -65,6 +69,11 @@ function draw() {
 
 function playGame() {
   shipRotation += shipRotator;
+
+  push();
+  enemy1.update(AM.asteroids);
+  enemy1.display();
+  pop();
 
   push();
 
