@@ -3,7 +3,17 @@ let shipRotation = 0;
 let shipRotator = 0;
 let AM;
 
+let shootSound;
+let teleportSound;
+let rockExplode;
+
 let lasers = [];
+
+function preload() {
+  shootSound = loadSound("soundEffects/laserShoot.mp3");
+  teleportSound = loadSound("soundEffects/teleport.mp3");
+  rockExplode = loadSound("soundEffects/rockExplode.mp3");
+}
 
 function setup() {
   createCanvas(400, 400);
@@ -86,10 +96,12 @@ function keyPressed() {
 
     case "t":
       ship.teleport();
+      teleportSound.play();
       break;
 
     case "f":
       lasers.push(new Laser(ship.position, shipRotation, true));
+      shootSound.play();
       break;
   }
 }
