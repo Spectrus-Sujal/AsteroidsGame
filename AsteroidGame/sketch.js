@@ -14,16 +14,16 @@ let gameStarted = false;
 let lasers = [];
 
 function preload() {
-  //shootSound = loadSound("soundEffects/laserShoot.mp3");
-  //teleportSound = loadSound("soundEffects/teleport.mp3");
-  //rockExplode = loadSound("soundEffects/rockExplode.mp3");
-  //backgroundMusic = loadSound("soundEffects/gameplayLoop.mp3");
+  shootSound = loadSound("soundEffects/laserShoot.mp3");
+  teleportSound = loadSound("soundEffects/teleport.mp3");
+  rockExplode = loadSound("soundEffects/rockExplode.mp3");
+  backgroundMusic = loadSound("soundEffects/gameplayLoop.mp3");
 }
 
 function setup() {
   createCanvas(400, 400);
 
-  //backgroundMusic.loop();
+  backgroundMusic.loop();
 
   angleMode(RADIANS);
   let startingPosition = createVector(width / 2, height / 2);
