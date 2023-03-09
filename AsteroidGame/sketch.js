@@ -7,16 +7,23 @@ let shootSound;
 let teleportSound;
 let rockExplode;
 
+let backgroundMusic;
+
+let gameStarted = false;
+
 let lasers = [];
 
 function preload() {
-  shootSound = loadSound("soundEffects/laserShoot.mp3");
-  teleportSound = loadSound("soundEffects/teleport.mp3");
-  rockExplode = loadSound("soundEffects/rockExplode.mp3");
+  //shootSound = loadSound("soundEffects/laserShoot.mp3");
+  //teleportSound = loadSound("soundEffects/teleport.mp3");
+  //rockExplode = loadSound("soundEffects/rockExplode.mp3");
+  //backgroundMusic = loadSound("soundEffects/gameplayLoop.mp3");
 }
 
 function setup() {
   createCanvas(400, 400);
+
+  //backgroundMusic.loop();
 
   angleMode(RADIANS);
   let startingPosition = createVector(width / 2, height / 2);
@@ -30,6 +37,32 @@ function setup() {
 function draw() {
   background(0);
 
+  if (!gameStarted) {
+    stroke(255);
+    text("A s t e r o i d s", width / 2 - 40, height / 2);
+
+    stroke(255);
+    fill(100);
+    rect(width / 4, height - height / 3, width / 2, height / 4);
+
+    text("P L A Y", width / 2 - 20, height - height / 5);
+
+    if (mouseIsPressed) {
+      if (mouseX >= width / 4 && mouseX <= width / 4 + width / 2) {
+        if (
+          mouseY >= height - height / 3 &&
+          mouseY <= height - height / 3 + height / 4
+        ) {
+          gameStarted = true;
+        }
+      }
+    }
+  } else {
+    playGame();
+  }
+}
+
+function playGame() {
   shipRotation += shipRotator;
 
   push();
@@ -77,7 +110,7 @@ function draw() {
     ship.position = createVector(width / 2, height / 2);
 
     if (ship.health <= 0) {
-      // game end
+      gameStarted = false;
     }
   }
 
