@@ -1,20 +1,20 @@
 class Asteroid extends Actor {
-  constructor(radius) {
-    let startingPosition = createVector(
-      random(0, width - radius),
-      random(0, height - radius)
+  constructor(startingPosition, radius, asteroidSize) {
+    let startingVelocity = createVector(
+      random(-(4 - asteroidSize), 4 - asteroidSize),
+      random(-(4 - asteroidSize), 4 - asteroidSize)
     );
-    let startingVelocity = createVector(random(-2, 2), random(-2, 2));
-
-    super(startingPosition, startingVelocity, radius);
+    let size = createVector(radius, radius);
+    super(startingPosition, startingVelocity, size);
 
     this.r = radius;
-    this.total = random(5, 15);
+    this.asteroidSize = asteroidSize;
+    this.total = random(this.asteroidSize, this.asteroidSize * 3);
 
     this.offset = [];
 
     for (let i = 0; i < this.total; i++) {
-      this.offset[i] = random(-15, 15);
+      this.offset[i] = random(-this.asteroidSize * 5, this.asteroidSize * 5);
     }
   }
 
@@ -29,6 +29,4 @@ class Asteroid extends Actor {
     }
     endShape(CLOSE);
   }
-
-  
 }
