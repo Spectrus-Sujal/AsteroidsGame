@@ -6,12 +6,12 @@ class Enemy extends Character {
     let size = createVector(shipSize * 20, shipSize * 20);
     super(startingPosition, startingVelocity, size);
     this.shipSize = shipSize;
+    this.angle = 0;
   }
 
   update(asteroids) {
     let acceleration = this.checkSupproundings(asteroids);
 
-    console.log(acceleration);
     if (acceleration.x == 0 && acceleration.y == 0) {
       this.velocity = createVector(1, 0);
     } else {
@@ -22,6 +22,14 @@ class Enemy extends Character {
     super.update(false);
   }
 
+  lookAtPlayer(player) {
+    let tempX = this.position.x - player.x;
+    let tempY = this.position.y - player.y;
+    let tempVec = createVector(tempX, tempY);
+    this.angle = atan2(tempVec.y, tempVec.x) - HALF_PI;
+    console.log(this.angle + "asda");
+  }
+
   checkSupproundings(asteroids) {
     let directionToGo = createVector(0, 0);
 
@@ -29,38 +37,48 @@ class Enemy extends Character {
       let temp = asteroids[curr];
 
       if (
-        temp.position.x <= this.position.x - this.shipSize.x &&
-        temp.position.x + temp.size.x >= this.position.x - this.shipSize.x * 2
+        dist(
+          this.position.x,
+          this.position.y,
+          temp.position.x,
+          temp.position.y
+        ) <=
+        this.size.x * 2
       ) {
-        directionToGo.x++;
-        console.log("X +");
-      }
+        if (
+          temp.position.x <= this.position.x - this.shipSize.x &&
+          temp.position.x + temp.size.x >= this.position.x - this.shipSize.x * 2
+        ) {
+          directionToGo.x++;
+          console.log("X +");
+        }
 
-      if (
-        temp.position.x <= this.position.x + this.shipSize.x * 2 &&
-        temp.position.x > this.position.x
-      ) {
-        directionToGo.x--;
+        if (
+          temp.position.x <= this.position.x + this.shipSize.x * 2 &&
+          temp.position.x > this.position.x
+        ) {
+          directionToGo.x--;
 
-        console.log("X -");
-      }
+          console.log("X -");
+        }
 
-      if (
-        temp.position.y <= this.position.y - this.shipSize.y &&
-        temp.position.y + temp.size.y >= this.position.y - this.shipSize.y * 2
-      ) {
-        directionToGo.y++;
+        if (
+          temp.position.y <= this.position.y - this.shipSize.y &&
+          temp.position.y + temp.size.y >= this.position.y - this.shipSize.y * 2
+        ) {
+          directionToGo.y++;
 
-        console.log("Y +");
-      }
+          console.log("Y +");
+        }
 
-      if (
-        temp.position.y <= this.position.y + this.shipSize.y * 2 &&
-        temp.position.y > this.position.y
-      ) {
-        directionToGo.y--;
+        if (
+          temp.position.y <= this.position.y + this.shipSize.y * 2 &&
+          temp.position.y > this.position.y
+        ) {
+          directionToGo.y--;
 
-        console.log("Y -");
+          console.log("Y -");
+        }
       }
     }
 
@@ -70,6 +88,8 @@ class Enemy extends Character {
   display() {
     stroke(255);
     fill(255);
-    ellipse(this.position.x, this.position.y, this.size.x, this.size.y);
+    translate(this.position.x, this.position.y);
+    rotate(this.angle);
+    triangle(0, 0, this.size.x, this.size.y, -this.size.x, this.size.y);
   }
 }
