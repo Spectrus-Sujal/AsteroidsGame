@@ -25,6 +25,7 @@ function preload() {
 function setup() {
   createCanvas(400, 400);
 
+  backgroundMusic.setVolume(0.3);
   backgroundMusic.loop();
 
   angleMode(RADIANS);
