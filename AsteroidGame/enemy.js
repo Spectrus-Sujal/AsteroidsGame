@@ -1,12 +1,13 @@
 class Enemy extends Character {
-  constructor(shipSize) {
+  constructor(saucerSize) {
     //let startingPosition = createVector(random(width), random(height));
     let startingPosition = createVector(width / 2, height - height / 3);
     let startingVelocity = createVector(-0, 0);
-    let size = createVector(shipSize * 20, shipSize * 20);
+    let size = createVector(saucerSize * 20, saucerSize * 20);
     super(startingPosition, startingVelocity, size);
-    this.shipSize = shipSize;
+    this.saucerSize = saucerSize;
     this.angle = 0;
+    this.cooldown = 180;
   }
 
   update(asteroids) {
@@ -27,7 +28,6 @@ class Enemy extends Character {
     let tempY = this.position.y - player.y;
     let tempVec = createVector(tempX, tempY);
     this.angle = atan2(tempVec.y, tempVec.x) - HALF_PI;
-    console.log(this.angle + "asda");
   }
 
   checkSupproundings(asteroids) {
@@ -35,51 +35,6 @@ class Enemy extends Character {
 
     for (let curr = 0; curr < asteroids.length; curr++) {
       let temp = asteroids[curr];
-
-      if (
-        dist(
-          this.position.x,
-          this.position.y,
-          temp.position.x,
-          temp.position.y
-        ) <=
-        this.size.x * 2
-      ) {
-        if (
-          temp.position.x <= this.position.x - this.shipSize.x &&
-          temp.position.x + temp.size.x >= this.position.x - this.shipSize.x * 2
-        ) {
-          directionToGo.x++;
-          console.log("X +");
-        }
-
-        if (
-          temp.position.x <= this.position.x + this.shipSize.x * 2 &&
-          temp.position.x > this.position.x
-        ) {
-          directionToGo.x--;
-
-          console.log("X -");
-        }
-
-        if (
-          temp.position.y <= this.position.y - this.shipSize.y &&
-          temp.position.y + temp.size.y >= this.position.y - this.shipSize.y * 2
-        ) {
-          directionToGo.y++;
-
-          console.log("Y +");
-        }
-
-        if (
-          temp.position.y <= this.position.y + this.shipSize.y * 2 &&
-          temp.position.y > this.position.y
-        ) {
-          directionToGo.y--;
-
-          console.log("Y -");
-        }
-      }
     }
 
     return directionToGo;
@@ -87,7 +42,7 @@ class Enemy extends Character {
 
   display() {
     stroke(255);
-    fill(255);
+    fill(255, 0, 0);
     translate(this.position.x, this.position.y);
     rotate(this.angle);
     triangle(0, 0, this.size.x, this.size.y, -this.size.x, this.size.y);

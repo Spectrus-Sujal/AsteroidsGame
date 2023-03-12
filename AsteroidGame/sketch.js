@@ -13,6 +13,8 @@ let gameStarted = false;
 
 let lasers = [];
 
+let enemies = [];
+
 let enemy1;
 
 function preload() {
@@ -34,7 +36,7 @@ function setup() {
   let size = createVector(10, 20);
   ship = new Player(startingPosition, startingVelocity, size, 3);
 
-  enemy1 = new Enemy(1);
+  enemies.push(new Enemy(1));
 
   AM = new AsteroidManager(5);
 }
@@ -63,18 +65,32 @@ function draw() {
         }
       }
     }
-  } else {
-    playGame();
-  }
-}
 
-function playGame() {
+    return;
+  }
+
   shipRotation += shipRotator;
 
   push();
-  enemy1.lookAtPlayer(ship.position);
-  enemy1.update(AM.asteroids);
-  enemy1.display();
+  for (let i = 0; i < enemies.length; i++) {
+    enemies[i].lookAtPlayer(ship.position);
+    enemies[i].update(AM.asteroids);
+    enemies[i].display();
+    enemies[i].cooldown--;
+
+    if (enemies[i].cooldown <= 0) {
+      lasers.push(
+        new Laser(
+          enemies[i].position,
+          enemies[i].angle +
+            random(-(0.3 * enemies[i].saucerSize), 0.3 * enemies[i].saucerSize),
+          false
+        )
+      );
+
+      enemies[i].cooldown = 180;
+    }
+  }
   pop();
 
   push();
@@ -90,6 +106,11 @@ function playGame() {
   for (let i = 0; i < lasers.length; i++) {
     lasers[i].update();
     lasers[i].display();
+
+    if (lasers[i].health <= 0) {
+      lasers.splice(i, 1);
+      i--;
+    }
   }
 
   pop();
@@ -108,6 +129,20 @@ function playGame() {
         if (ship.score >= 10000 * ship.scoreCounter) {
           ship.health++;
           ship.scoreCounter++;
+
+          if (AM.asteroids.length < 5) {
+            let size = random(15, 30);
+            let startingPosition = createVector(
+              random(0, width - size),
+              random(0, height - size)
+            );
+            AM.asteroids.push(startingPosition, size, 3);
+          }
+
+          if (random(10) <= 2) {
+            enemies.push(new Enemy(1));
+          }
+          enemies.push(new Enemy(3));
         }
       }
       lasers.splice(i, 1);
@@ -124,7 +159,14 @@ function playGame() {
     if (ship.health <= 0) {
       gameStarted = false;
     }
-    return;
+  }
+
+  //check player collision
+  for (let i = 0; i < enemies.length; i++) {
+    if (AM.checkCollisions(enemies[i].position)) {
+      enemies.splice(i, 1);
+      i--;
+    }
   }
 
   pop();
