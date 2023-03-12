@@ -1,26 +1,20 @@
 class Enemy extends Character {
   constructor(saucerSize) {
     //let startingPosition = createVector(random(width), random(height));
-    let startingPosition = createVector(width / 2, height - height / 3);
-    let startingVelocity = createVector(-0, 0);
-    let size = createVector(saucerSize * 20, saucerSize * 20);
+    let startingPosition = createVector(random(width), random(height));
+    let startingVelocity = createVector(2, 2);
+    let size = createVector(saucerSize * 10, saucerSize * 10);
     super(startingPosition, startingVelocity, size);
     this.saucerSize = saucerSize;
     this.angle = 0;
     this.cooldown = 180;
-  }
 
-  update(asteroids) {
-    let acceleration = this.checkSupproundings(asteroids);
-
-    if (acceleration.x == 0 && acceleration.y == 0) {
-      this.velocity = createVector(1, 0);
-    } else {
-      this.velocity = acceleration.mult(2);
-      console.log("Check worked");
-    }
-
-    super.update(false);
+    this.thrusters = [
+      createVector(-3, -3),
+      createVector(3, -3),
+      createVector(-3, 3),
+      createVector(3, 3),
+    ];
   }
 
   lookAtPlayer(player) {
@@ -30,21 +24,60 @@ class Enemy extends Character {
     this.angle = atan2(tempVec.y, tempVec.x) - HALF_PI;
   }
 
-  checkSupproundings(asteroids) {
-    let directionToGo = createVector(0, 0);
+  checkSurroundings(asteroids) {
+    let thrusters = [0, 0, 0, 0];
 
-    for (let curr = 0; curr < asteroids.length; curr++) {
-      let temp = asteroids[curr];
+    for (let i = 0; i < asteroids.length; i++) {
+      let temp = asteroids[i];
+
+      let distance = dist(
+        this.position.x,
+        this.position.y,
+        temp.position.x,
+        temp.position.y
+      );
+
+      if (distance <= (temp.r + this.size.x) * 2) {
+        if (temp.position.x < this.position.x) {
+          thrusters[1]--;
+          thrusters[3]--;
+        }
+
+        if (temp.position.x > this.position.x) {
+          thrusters[2]--;
+          thrusters[4]--;
+        }
+
+        if (temp.position.y < this.position.y) {
+          thrusters[1]--;
+          thrusters[2]--;
+        }
+
+        if (temp.position.y > this.position.y) {
+          thrusters[3]--;
+          thrusters[4]--;
+        }
+
+        let biggest = 0;
+
+        for (let j = 0; j < thrusters.length; j++) {
+          if (thrusters[j > thrusters[biggest]]) {
+            biggest = j;
+          }
+        }
+
+        this.velocity = this.thrusters[biggest];
+        console.log(this.thrusters[biggest] + "Selceted");
+      }
     }
-
-    return directionToGo;
   }
-
   display() {
+    push();
     stroke(255);
     fill(255, 0, 0);
     translate(this.position.x, this.position.y);
     rotate(this.angle);
-    triangle(0, 0, this.size.x, this.size.y, -this.size.x, this.size.y);
+    triangle(0, 0, this.size.x / 2, this.size.y, -this.size.x / 2, this.size.y);
+    pop();
   }
 }

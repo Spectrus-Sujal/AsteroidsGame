@@ -36,9 +36,7 @@ function setup() {
   let size = createVector(10, 20);
   ship = new Player(startingPosition, startingVelocity, size, 3);
 
-  enemies.push(new Enemy(1));
-
-  AM = new AsteroidManager(5);
+  AM = new AsteroidManager(2);
 }
 
 function draw() {
@@ -73,8 +71,10 @@ function draw() {
 
   push();
   for (let i = 0; i < enemies.length; i++) {
+    push();
     enemies[i].lookAtPlayer(ship.position);
-    enemies[i].update(AM.asteroids);
+    enemies[i].checkSurroundings(AM.asteroids);
+    enemies[i].update();
     enemies[i].display();
     enemies[i].cooldown--;
 
@@ -90,6 +90,7 @@ function draw() {
 
       enemies[i].cooldown = 180;
     }
+    pop();
   }
   pop();
 
@@ -117,7 +118,8 @@ function draw() {
 
   push();
 
-  AM.update();
+  //AM.update();
+  AM.asteroids[0].position = createVector(mouseX, mouseY);
   AM.display();
 
   // check lasers and asteroids
@@ -126,11 +128,11 @@ function draw() {
     if (tempScore != 0) {
       if (lasers[i].isPlayerLaser) {
         ship.score += tempScore;
-        if (ship.score >= 10000 * ship.scoreCounter) {
+        if (ship.score >= 1000 * ship.scoreCounter) {
           ship.health++;
           ship.scoreCounter++;
 
-          if (AM.asteroids.length < 5) {
+          if (AM.asteroids.length < 2) {
             let size = random(15, 30);
             let startingPosition = createVector(
               random(0, width - size),
@@ -141,8 +143,9 @@ function draw() {
 
           if (random(10) <= 2) {
             enemies.push(new Enemy(1));
+          } else {
+            enemies.push(new Enemy(2));
           }
-          enemies.push(new Enemy(3));
         }
       }
       lasers.splice(i, 1);
@@ -184,6 +187,7 @@ function keyPressed() {
 
     case "t":
       ship.teleport();
+      enemies.push(new Enemy(2));
       teleportSound.play();
       break;
 
