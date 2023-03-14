@@ -23,13 +23,6 @@ class Enemy extends Character {
     this.angle = atan2(tempVec.y, tempVec.x) - HALF_PI;
   }
 
-  update() {
-    console.log(this.position + "Before");
-    console.log(this.velocity + "velocity");
-    super.update();
-    console.log(this.position + "After");
-  }
-
   checkSurroundings(asteroids) {
     let thrusters = [0, 0, 0, 0];
 
@@ -88,7 +81,7 @@ class Enemy extends Character {
     stroke(255);
     fill(255, 0, 0);
     translate(this.position.x, this.position.y);
-    rotate(this.angle);
+    if (this.saucerSize > 1) rotate(this.angle);
     triangle(0, 0, this.size.x / 2, this.size.y, -this.size.x / 2, this.size.y);
     pop();
   }
