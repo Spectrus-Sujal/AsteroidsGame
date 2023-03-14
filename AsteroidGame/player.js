@@ -3,12 +3,27 @@ class Player extends Character {
     super(startingPosition, startingVelocity, size);
     this.health = startHealth;
     this.score = 1000;
+    this.acc = createVector(0, -3);
     this.scoreCounter = 1;
   }
 
   teleport() {
     this.position.x = random(width);
     this.position.y = random(height);
+  }
+
+  rotateShip(newRotation) {
+    this.charRotation = newRotation;
+  }
+
+  update(isThrusting) {
+    if (isThrusting) {
+      this.acc.setHeading(this.charRotation - HALF_PI);
+      this.velocity.add(this.acc);
+    }
+
+    super.update();
+    this.velocity.mult(0.9);
   }
 
   display() {

@@ -11,7 +11,7 @@ class Actor {
   }
 
   checkEdges() {
-    let collisionRadius = this.size.x / 2;
+    let collisionRadius = this.size.x / 4;
 
     if (this.position.x > width + collisionRadius * 2) {
       this.position.x = collisionRadius;

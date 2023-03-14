@@ -6,15 +6,14 @@ class Enemy extends Character {
     let size = createVector(saucerSize * 10, saucerSize * 10);
     super(startingPosition, startingVelocity, size);
     this.saucerSize = saucerSize;
-    this.angle = 0;
+    this.charRotation = 0;
     this.cooldown = 180;
 
-    this.thrusters = [
-      createVector(-3, -3),
-      createVector(3, -3),
-      createVector(-3, 3),
-      createVector(3, 3),
-    ];
+    this.thrusters = [4];
+    this.thrusters[0] = createVector(-1, -1);
+    this.thrusters[1] = createVector(1, -1);
+    this.thrusters[2] = createVector(-1, 1);
+    this.thrusters[3] = createVector(1, 1);
   }
 
   lookAtPlayer(player) {
@@ -22,6 +21,13 @@ class Enemy extends Character {
     let tempY = this.position.y - player.y;
     let tempVec = createVector(tempX, tempY);
     this.angle = atan2(tempVec.y, tempVec.x) - HALF_PI;
+  }
+
+  update() {
+    console.log(this.position + "Before");
+    console.log(this.velocity + "velocity");
+    super.update();
+    console.log(this.position + "After");
   }
 
   checkSurroundings(asteroids) {
@@ -38,8 +44,8 @@ class Enemy extends Character {
       );
 
       if (
-        distance <= (temp.r * 2 + this.size.x) * 2 ||
-        distance <= (temp.r * 2 + this.size.y) * 2
+        distance <= (temp.r + this.size.x) * 2 ||
+        distance <= (temp.r + this.size.y) * 2
       ) {
         if (temp.position.x < this.position.x) {
           thrusters[0]--;
