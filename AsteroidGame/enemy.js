@@ -37,40 +37,46 @@ class Enemy extends Character {
         temp.position.y
       );
 
-      if (distance <= (temp.r + this.size.x) * 2) {
+      if (
+        distance <= (temp.r * 2 + this.size.x) * 2 ||
+        distance <= (temp.r * 2 + this.size.y) * 2
+      ) {
         if (temp.position.x < this.position.x) {
-          thrusters[1]--;
-          thrusters[3]--;
+          thrusters[0]--;
+          thrusters[2]--;
         }
 
         if (temp.position.x > this.position.x) {
-          thrusters[2]--;
-          thrusters[4]--;
+          thrusters[1]--;
+          thrusters[3]--;
         }
 
         if (temp.position.y < this.position.y) {
+          thrusters[0]--;
           thrusters[1]--;
-          thrusters[2]--;
         }
 
         if (temp.position.y > this.position.y) {
+          thrusters[2]--;
           thrusters[3]--;
-          thrusters[4]--;
         }
 
         let biggest = 0;
 
         for (let j = 0; j < thrusters.length; j++) {
-          if (thrusters[j > thrusters[biggest]]) {
+          if (thrusters[j] > thrusters[biggest]) {
             biggest = j;
           }
+
+          console.log(thrusters[j]);
         }
 
         this.velocity = this.thrusters[biggest];
-        console.log(this.thrusters[biggest] + "Selceted");
+        return;
       }
     }
   }
+
   display() {
     push();
     stroke(255);
