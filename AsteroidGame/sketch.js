@@ -19,18 +19,21 @@ let enemy1;
 
 function preload() {
   shootSound = loadSound("soundEffects/laserShoot.mp3");
-  shootSound.setVolume(0.3);
+
   teleportSound = loadSound("soundEffects/teleport.mp3");
-  teleportSound.setVolume(0.3);
+
   rockExplode = loadSound("soundEffects/rockExplode.mp3");
-  rockExplode.setVolume(0.3);
+
   backgroundMusic = loadSound("soundEffects/gameplayLoop.mp3");
-  backgroundMusic.setVolume(0.3);
 }
 
 function setup() {
   createCanvas(400, 400);
 
+  shootSound.setVolume(0.3);
+  teleportSound.setVolume(0.3);
+  rockExplode.setVolume(0.3);
+  backgroundMusic.setVolume(0.3);
   backgroundMusic.loop();
 
   angleMode(RADIANS);
