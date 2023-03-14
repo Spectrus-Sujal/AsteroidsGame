@@ -26,6 +26,8 @@ class Enemy extends Character {
   checkSurroundings(asteroids) {
     let thrusters = [0, 0, 0, 0];
 
+    if (this.saucerSize > 1) return;
+
     for (let i = 0; i < asteroids.length; i++) {
       let temp = asteroids[i];
 

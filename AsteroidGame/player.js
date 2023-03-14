@@ -2,7 +2,7 @@ class Player extends Character {
   constructor(startingPosition, startingVelocity, size, startHealth) {
     super(startingPosition, startingVelocity, size);
     this.health = startHealth;
-    this.score = 1000;
+    this.score = 0;
     this.acc = createVector(0, -3);
     this.scoreCounter = 1;
   }

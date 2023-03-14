@@ -19,15 +19,18 @@ let enemy1;
 
 function preload() {
   shootSound = loadSound("soundEffects/laserShoot.mp3");
+  shootSound.setVolume(0.3);
   teleportSound = loadSound("soundEffects/teleport.mp3");
+  teleportSound.setVolume(0.3);
   rockExplode = loadSound("soundEffects/rockExplode.mp3");
+  rockExplode.setVolume(0.3);
   backgroundMusic = loadSound("soundEffects/gameplayLoop.mp3");
+  backgroundMusic.setVolume(0.3);
 }
 
 function setup() {
   createCanvas(400, 400);
 
-  backgroundMusic.setVolume(0.3);
   backgroundMusic.loop();
 
   angleMode(RADIANS);
@@ -36,7 +39,7 @@ function setup() {
   let size = createVector(10, 20);
   ship = new Player(startingPosition, startingVelocity, size, 3);
 
-  AM = new AsteroidManager(2);
+  AM = new AsteroidManager(5);
 }
 
 function draw() {
@@ -105,10 +108,39 @@ function draw() {
   push();
 
   for (let i = 0; i < lasers.length; i++) {
+    let decrease = false;
     lasers[i].update();
     lasers[i].display();
 
-    if (lasers[i].health <= 0) {
+    if (lasers[i].checkCollision(ship.position) && !lasers[i].isPlayerLaser) {
+      ship.health--;
+
+      ship.position = createVector(width / 2, height / 2);
+
+      if (ship.health <= 0) {
+        gameStarted = false;
+      }
+
+      decrease = true;
+    }
+
+    for (let j = 0; j < enemies.length; j++) {
+      if (
+        lasers[i].checkCollision(enemies[j].position) &&
+        lasers[i].isPlayerLaser
+      ) {
+        ship.score += 200;
+        if (enemies[j].saucerSize == 1) ship.score += 800;
+        enemies.splice(j, 1);
+        j--;
+        decrease = true;
+        break;
+      }
+    }
+
+    decrease = lasers[i].health <= 0;
+
+    if (decrease) {
       lasers.splice(i, 1);
       i--;
     }
@@ -118,8 +150,7 @@ function draw() {
 
   push();
 
-  //AM.update();
-  AM.asteroids[0].position = createVector(mouseX, mouseY);
+  AM.update();
   AM.display();
 
   // check lasers and asteroids
@@ -132,7 +163,7 @@ function draw() {
           ship.health++;
           ship.scoreCounter++;
 
-          if (AM.asteroids.length < 2) {
+          if (AM.asteroids.length < 5) {
             let size = random(15, 30);
             let startingPosition = createVector(
               random(0, width - size),
